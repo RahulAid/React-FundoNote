@@ -1,0 +1,105 @@
+// color popper
+
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Popper from '@mui/material/Popper';
+import { display } from '@mui/system';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
+
+export default function CPopper(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+
+  const colorARr = ["red", "blue", "yellow", "green", "purple"]
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popper' : undefined;
+
+  const selectColor=(c)=>{
+    // console.log("hellow");
+    console.log(c)
+
+    if (props.action === 'create') {
+        props.takecolorfornoteTwo(c)
+    }
+    else if(props.action === 'update') {
+        //api update color
+    }
+
+   
+  }
+   
+
+
+  
+
+  return (
+    <div>
+        <ColorLensIcon onClick={handleClick}/>
+      {/* <button aria-describedby={id} type="button" onClick={handleClick}>
+        Toggle Popper
+      </button> */}
+      <Popper id={id} open={open} anchorEl={anchorEl}>
+        <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper', display:'flex' }}>
+            {
+                colorARr.map(color=>(
+                    <div style={{width:30, height:30, border:"1px solid red", borderRadius:100, backgroundColor:color, marginLeft: 5} }
+                     onClick={()=>selectColor(color)}></div>
+                ))
+            }
+            
+        </Box>
+      </Popper>
+    </div>
+  );
+}
+
+--------------------------------------------------------------------
+
+//takenote 2
+
+import React, { useState } from 'react'
+import CPopper from './Cpopper'
+
+function TakenoteTwo() {
+
+    const [cholder, setholder]= useState('')
+
+    const takecolorfornoteTwo =(color)=>{
+        console.log("color form color popper", color);
+        setholder(color)
+    }
+  return (
+    <div>
+        <div style={{width : 300, height:150, border: '1px solid red', backgroundColor:cholder}}> takenote 2 <br />
+            <CPopper takecolorfornoteTwo={takecolorfornoteTwo} action = 'create'/>
+        </div>
+    </div>
+  )
+}
+
+export default TakenoteTwo
+
+
+
+-----------------------------------------------------
+
+//takenote 3
+
+import React from 'react'
+import CPopper from './Cpopper'
+
+function TakenoteThree() {
+  return (
+    <div>
+        <div style={{width : 300, height:150, border: '1px solid red'}}> takenote 3 <br />
+            <CPopper action = 'update'/>
+        </div>
+    </div>
+  )
+}
+
+export default TakenoteThree
